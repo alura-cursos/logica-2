@@ -1,53 +1,123 @@
+<!-- 
+Autor:Gabriel R.
+
+Data:04/09/2014
+Vers.:1.0
+
+© Todos os direitos reservados HAHAHAHA!
+
+Powered by Javascript
+
+
+ -->
+
+
+<html>
+
 <canvas id="tela" width="600" height="400"></canvas>
 
+<br><br>
+<button id="inicio"> Iniciar </button>
+<button id="limpar"> Limpar </button>
+<p id="resultado">Resultado - <br>Acertos:<span id="hits"> 0 </span>  <br> Errados: <span id="misses">0 </span><br> Perdidos:<span id="lost"> 0  </span> </p>
+
 <script>
-var raio = 10;
+
+var tela =  document.getElementById("tela");
+var brush =  tela.getContext("2d");
+var ponto_alvo = [];
+
+brush.fillStyle="gray";
+brush.fillRect(0,0,600,400);
+
+
+
+var iniciar = function(){
+
+var intervalo = setInterval(desenha,3000);
+
+};
+
+var terminar = function(){
+
+clearInterval(intervalo);
+
+};
+
+var circulo = function(x,y,raio){
+	
+	brush.beginPath();
+	brush.arc(x,y,raio,0,2*Math.PI);
+	brush.fill();
+
+};
+
+
+var desenhaAlvo = function(x, y) {
+    var raio = 40;
+    brush.fillStyle="white";
+    circulo(x, y, raio);
+	brush.fillStyle="red";
+    circulo(x, y, raio-10);
+	brush.fillStyle="white";
+    circulo(x, y, raio-20);
+    brush.fillStyle="red";
+    circulo(x, y, raio-30);
+};
+
+var limpaTela = function (){
+
+	brush.fillStyle="black";
+	brush.fillRect(0,0,600,400);
+
+};
+
+
+var sorteia = function(range){
+	
+	return Math.round(Math.random()*range);
+	
+};
+
+
+
 var alvoX;
 var alvoY;
 
-var tela = document.getElementById("tela");
-var c = tela.getContext("2d");
-
-var desenhaAlvo = function(x, y) {
-
-    circulo(x, y, raio+30, "white");
-    circulo(x, y, raio+20, "red");
-    circulo(x, y, raio+10, "white");
-    circulo(x, y, raio, "red");
-};
-
-var circulo = function(x,y,raio, cor) {
-	c.fillStyle = cor;
-	c.beginPath();
-	c.arc(x,y,raio, 0, 2*Math.PI);
-	c.fill();
-}
-
-var limpa = function() {
-	c.clearRect(0,0,600,400);
-}
-
-var sorteia = function(max) {
-	return Math.floor(Math.random() * max);
-}
-
 var desenha = function() {
-  limpa();
-  alvoX = sorteia(600);
-  alvoY = sorteia(400);
+  
+  limpaTela();
+  alvoX = sorteia(599);
+  alvoY = sorteia(399);
   desenhaAlvo(alvoX, alvoY);
+  ponto_alvo[alvoX, alvoY];
+  
 };
 
-setInterval(desenha, 3000);
+var pts=0;
 
-tela.onclick = function(evento) {
-	var x = evento.pageX - tela.offsetLeft;
-	var y = evento.pageY - tela.offsetTop;
+
+/*var tiro = function(even			Aqui eu implementaria um teste pra saber se o clique acertou o alvo, 
+						e talvez até o quão preciso foi esse acertou.
+						Se você tem alguma sugestão pra me ajudar com o código, seria muito legal. :D
+											
+
+	var tiro_x = evento.pageX - tela.offsetLeft;
+	var tiro_y = evento.pageY - tela.offsetTop;
+	var ponto_tiro = [tiro_x,tiro_y];
 	
-	if((x > alvoX - raio) && (x < alvoX + raio) && 
-		(y > alvoY - raio) && (y < alvoY + raio)) {
-			alert("acertou!");
-	}
-//	alert("x " + x + " " + " y " + " alvoX " + alvoX + " alvoY " + alvoY);
-}
+	console.log("posicao do tiro: " + tiro_x + " , " + tiro_y);
+	console.log(pts);
+};
+*/
+var botaoIniciar = document.getElementById("inicio");
+botaoIniciar.onclick = iniciar;
+
+var botaoLimpar = document.getElementById("limpar");
+botaoLimpar.onclick = terminar;
+
+//tela.onclick = tiro;
+
 </script>
+
+</html>
